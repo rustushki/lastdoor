@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "Item.hpp"
 #include "Room.hpp"
 
 void out(std::string output) {
@@ -15,6 +16,12 @@ std::string prompt() {
 
 void look(Room room) {
 	out(room.getDescription());
+
+	out("");
+
+	for (Item item: room.getItems()) {
+		out("There is " + item.getShortDescription() + ".");
+	}
 }
 
 int main() {
@@ -22,6 +29,14 @@ int main() {
 	std::cout << "===============" << std::endl;
 
 	Room room("Brown and gray stone brick walls surround you. You hear the trickle of water in the distance. In front of you is a rusted iron door.");
+	std::vector<std::string> shortNames;
+	shortNames.push_back("key");
+	shortNames.push_back("golden key");
+	shortNames.push_back("small key");
+	shortNames.push_back("little key");
+	shortNames.push_back("bright key");
+	Item key("key", "a bright, golden key", shortNames);
+	room.addItem(key);
 
 	look(room);
 
@@ -29,7 +44,7 @@ int main() {
 	bool doorLocked = true;
 	bool win        = false;
 
-	while (!win && exit) {
+	while (!win) {
 		std::string input = prompt();
 
 		if (input.compare("take key") == 0) {

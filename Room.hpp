@@ -14,8 +14,8 @@ private:
 public:
 	Room(std::string description);
 	std::string getDescription();
-	std::vector<Item> getItems;
-
+	std::vector<Item> getItems();
+	void addItem(Item item);
 };
 
 #endif//ROOM_HPP
