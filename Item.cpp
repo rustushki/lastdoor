@@ -16,3 +16,13 @@ std::string Item::getLongDescription() {
 std::vector<std::string> Item::getShortNames() {
 	return shortNames;
 }
+
+bool Item::isShortNamed(std::string possibleShortName) {
+	for (auto shortName : getShortNames()) {
+		if (shortName.compare(possibleShortName) == 0) {
+			return true;
+		}
+	}
+
+	return false;
+}

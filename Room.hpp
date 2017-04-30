@@ -4,18 +4,17 @@
 #include <string>
 #include <vector>
 
-#include "Item.hpp"
+#include "Inventory.hpp"
 
 class Room {
 private:
 	std::string description;
-	std::vector<Item> items;
+	Inventory inventory;
 
 public:
-	Room(std::string description);
+	Room(std::string description, Inventory inventory);
 	std::string getDescription();
-	std::vector<Item> getItems();
-	void addItem(Item item);
+	Inventory& getInventory();
 };
 
 #endif//ROOM_HPP

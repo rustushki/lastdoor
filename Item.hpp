@@ -15,6 +15,7 @@ public:
 	std::string getShortDescription();
 	std::string getLongDescription();
 	std::vector<std::string> getShortNames();
+	bool isShortNamed(std::string possibleShortName);
 };
 
 #endif//ITEM_HPP

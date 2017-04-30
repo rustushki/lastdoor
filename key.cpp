@@ -19,7 +19,7 @@ void look(Room room) {
 
 	out("");
 
-	for (Item item: room.getItems()) {
+	for (Item item: room.getInventory().getItems()) {
 		out("There is " + item.getShortDescription() + ".");
 	}
 }
@@ -28,7 +28,9 @@ int main() {
 	std::cout << "Key" << std::endl;
 	std::cout << "===============" << std::endl;
 
-	Room room("Brown and gray stone brick walls surround you. You hear the trickle of water in the distance. In front of you is a rusted iron door.");
+	Inventory playerInventory;
+
+	Room room("Brown and gray stone brick walls surround you. You hear the trickle of water in the distance. In front of you is a rusted iron door.", Inventory());
 	std::vector<std::string> shortNames;
 	shortNames.push_back("key");
 	shortNames.push_back("golden key");
@@ -36,7 +38,7 @@ int main() {
 	shortNames.push_back("little key");
 	shortNames.push_back("bright key");
 	Item key("key", "a bright, golden key", shortNames);
-	room.addItem(key);
+	room.getInventory().addItem(key);
 
 	look(room);
 
@@ -52,6 +54,7 @@ int main() {
 				out("You already have the key.");
 			} else {
 				keyTaken = true;
+				room.getInventory().transferTo(playerInventory, "key");
 				out("Taken.");
 			}
 

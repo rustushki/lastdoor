@@ -1,17 +1,14 @@
 #include "Room.hpp"
 
-Room::Room(std::string description) {
+Room::Room(std::string description, Inventory inventory) {
 	this->description = description;
+	this->inventory = inventory;
 }
 
 std::string Room::getDescription() {
 	return description;
 }
 
-std::vector<Item> Room::getItems() {
-	return items;
-}
-
-void Room::addItem(Item item) {
-	items.push_back(item);
+Inventory& Room::getInventory() {
+	return inventory;
 }
