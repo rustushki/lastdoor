@@ -1,0 +1,9 @@
+# Intermediate CMake files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Compiler Output
+Key
+a.out
