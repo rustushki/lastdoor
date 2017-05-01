@@ -14,6 +14,7 @@ public:
 	std::vector<Item>& getItems();
 	void addItem(Item item);
 	void transferTo(Inventory& inventory, std::string shortName);
+	bool contains(std::string possibleItem);
 };
 
 #endif//INVENTORY_HPP

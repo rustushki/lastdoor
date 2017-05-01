@@ -16,11 +16,20 @@ void Inventory::addItem(Item item) {
 
 void Inventory::transferTo(Inventory& inventory, std::string shortName) {
 	for (auto item = getItems().begin(); item < getItems().end(); item++) {
-		std::cout << "checking each item" << std::endl;
 		if (item->isShortNamed(shortName)) {
 			inventory.addItem(*item);
 			getItems().erase(item);
 			break;
 		}
 	}
+}
+
+bool Inventory::contains(std::string possibleItem) {
+	for (Item item : getItems()) {
+		if (item.isShortNamed(possibleItem)) {
+			return true;
+		}
+	}
+
+	return false;
 }

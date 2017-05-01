@@ -7,21 +7,26 @@ void out(std::string output) {
 	std::cout << output << std::endl;
 }
 
-std::string prompt() {
-	std::string input;
+void prompt() {
 	std::cout << "> ";
-	std::getline(std::cin, input);
-	return input;
 }
 
 void look(Room room) {
 	out(room.getDescription());
 
-	out("");
+	if (room.getInventory().getItems().size() > 0) {
+		out("");
 
-	for (Item item: room.getInventory().getItems()) {
-		out("There is " + item.getShortDescription() + ".");
+		for (Item item: room.getInventory().getItems()) {
+			out("There is " + item.getLongDescription() + ".");
+		}
 	}
+}
+
+std::string token() {
+	std::string token;
+	std::cin >> token;
+	return token;
 }
 
 int main() {
@@ -42,49 +47,69 @@ int main() {
 
 	look(room);
 
-	bool keyTaken   = false;
 	bool doorLocked = true;
 	bool win        = false;
 
 	while (!win) {
-		std::string input = prompt();
+		prompt();
 
-		if (input.compare("take key") == 0) {
-			if (keyTaken) {
-				out("You already have the key.");
-			} else {
-				keyTaken = true;
-				room.getInventory().transferTo(playerInventory, "key");
+		std::string verb = token();
+
+		if (verb.compare("take") == 0) {
+			std::string directObject = token();
+			if (room.getInventory().contains(directObject)) {
+				room.getInventory().transferTo(playerInventory, directObject);
 				out("Taken.");
-			}
-
-		} else if (input.compare("unlock door") == 0) {
-			if (!doorLocked) {
-				out("The door is already unlocked.");
-			} else if (!keyTaken) {
-				out("You don't have the key.");
+			} else if (playerInventory.contains(directObject)) {
+				out("You already have the " + directObject + ".");
 			} else {
-				doorLocked = false;
-				out("Unlocked.");
+				out("You don't see the " + directObject + ".");
 			}
 
-		} else if (input.compare("open door") == 0) {
-			if (!doorLocked) {
-				win = true;
-				out("Door opened, you win!");
-			} else {
-				out("The door is locked.");
-			}
-
-		} else if (input.compare("look") == 0) {
+		} else if (verb.compare("look") == 0) {
 			look(room);
 
-		} else if (input.compare("exit") == 0) {
+		} else if (verb.compare("exit") == 0) {
 			break;
 
+		} else if (verb.compare("unlock") == 0) {
+			std::string directObject = token();
+
+			if (directObject.compare("door") == 0) {
+				if (!doorLocked) {
+					out("The door is already unlocked.");
+				} else if (!playerInventory.contains("key")) {
+					out("You don't have the key.");
+				} else {
+					doorLocked = false;
+					out("Unlocked.");
+				}
+			} else {
+				out("You can't unlock the " + directObject + ".");
+			}
+
+
+		} else if (verb.compare("open") == 0) {
+			std::string directObject = token();
+
+			if (directObject.compare("door") == 0) {
+				if (!doorLocked) {
+					win = true;
+					out("Door opened, you win!");
+				} else {
+					out("The door is locked.");
+				}
+
+			} else {
+				out("You can't open the " + directObject + ".");
+			}
+
+		
 		} else {
-			std:out("Command not recognized.");
+			out("Command not recognized.");
 		}
+
+		out("");
 	}
 
 	return 0;
